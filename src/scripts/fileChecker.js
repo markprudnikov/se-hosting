@@ -210,4 +210,7 @@ function handleGameStart() {
   const noErrorsMap = checkFileFormat('worldmap', 'mapResult', checkMapFormat);
   const noErrorsBrain1 = checkFileFormat('brain1', 'brain1Result', checkBugFormat);
   const noErrorsBrain2 = checkFileFormat('brain2', 'brain2Result', checkBugFormat);
+  if (noErrorsMap && noErrorsBrain1 && noErrorsBrain2) {
+    location.href = 'home.html';
+  }
 }
