@@ -181,9 +181,10 @@ function checkFileFormat(fileId, resultId, formatChecker) {
   if (!file) {
     result.textContent = 'Please select a file.';
     result.style.color = 'red';
-    return;
+    return false;
   }
 
+  let noErrors = true;
   const reader = new FileReader();
 
   reader.onload = function (event) {
@@ -191,19 +192,22 @@ function checkFileFormat(fileId, resultId, formatChecker) {
 
     if (!formatChecker(fileContent, result.textContent)) {
       result.style.color = 'red';
+      noErrors = false;
     }
   };
 
   reader.onerror = function () {
     result.textContent = 'There was an error reading the file.';
     result.style.color = 'red';
+    noErrors = false;
   };
 
   reader.readAsText(file);
+  return noErrors;
 }
 
 function handleGameStart() {
-  checkFileFormat('worldmap', 'mapResult', checkMapFormat);
-  checkFileFormat('brain1', 'brain1Result', checkBugFormat);
-  checkFileFormat('brain2', 'brain2Result', checkBugFormat);
+  const noErrorsMap = checkFileFormat('worldmap', 'mapResult', checkMapFormat);
+  const noErrorsBrain1 = checkFileFormat('brain1', 'brain1Result', checkBugFormat);
+  const noErrorsBrain2 = checkFileFormat('brain2', 'brain2Result', checkBugFormat);
 }
