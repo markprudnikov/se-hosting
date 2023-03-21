@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bug World - Quit</title>
+	<style>
+		body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+		}
+		h1 {
+			font-size: 2.5rem;
+			margin-bottom: 1.5rem;
+		}
+		.btn-group {
+			display: flex;
+			flex-direction: row;
+			margin-top: 1.5rem;
+		}
+		button {
+			padding: 1rem 2rem;
+			font-size: 1.2rem;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+			background-color: #4CAF50;
+			color: white;
+			margin-right: 1rem;
+		}
+		button:last-of-type {
+			margin-right: 0;
+		}
+	</style>
+</head>
+<body>
+	<h1>Do you really want to quit?</h1>
+	<div class="btn-group">
+		<button onclick="window.open('','_self').close()">Yes</button>
+		<button onclick="window.history.back()">No</button>
+	</div>
+</body>
+</html>
