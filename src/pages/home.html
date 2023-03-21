@@ -3,12 +3,63 @@
 <head>
 	<title>Bug World - Home Page</title>
 </head>
-
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 50px;
+    }
+    #game-board {
+        width: 1000px;
+        height: 400px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px #ccc;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 30px;
+        margin-left: 30px;
+        text-align: center;
+    }
+    #game-stats {
+        width: 400px;
+        height: 360px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px #ccc;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 30px;
+        margin-right: 30px;
+        text-align: left;
+    }
+    h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    p {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    span {
+        color: #333;
+        font-weight: bold;
+    }
+</style>
 <body>
-
-	<h1>Bug World - Game Board</h1>
 	<div id="game-board">
-		<!-- Game board will be displayed here -->
+		Game board will be displayed here
 	</div>
 	<div id="game-stats">
 		<h2>Game Statistics:</h2>
