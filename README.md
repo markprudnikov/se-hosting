@@ -10,3 +10,5 @@ What did we do?
 2. created the user interface
 3. implemented validation of user input files for completeness and correctness
 4. started implementing the game logic, specifically, we implemented the WorldCell class from the specification
+
+Deployed [here](https://markprudnikov.github.io/se-hosting/)
