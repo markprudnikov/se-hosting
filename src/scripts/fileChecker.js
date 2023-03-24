@@ -40,7 +40,7 @@ function getCellNeighbours(row, col) {
   ]
 }
 
-function checkMapComponents(rows, cols, field, errorMessage) {
+function checkMapComponents(rows, cols, field) {
   const dsu = new DSU(rows * cols);
 
   const getIndex = (row, col) => row * cols + col;
@@ -67,73 +67,64 @@ function checkMapComponents(rows, cols, field, errorMessage) {
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       const index = getIndex(row, col);
-      if (matrix[row][col] === '+') {
+      if (field[row][col] === '+') {
         components1.add(dsu.find(index));
       }
-      if(matrix[row][col] === '-') {
+      if(field[row][col] === '-') {
         components2.add(dsu.find(index));
       }
     }
   }
   if (components1.size === 0 || components2.size === 0) {
-    errorMessage = "One of the bug swarms is missing."
-    return false;
+    return "Error: One of the bug swarms is missing.";
   }
   if (components1.size > 1 || components2.size > 1) {
-    errorMessage = "Swarm have to be linked."
-    return false;
+    return "Error: Swarm have to be linked.";
   }
-  return true;
+  return "";
 }
 
-function checkMapFormat(fileContent, errorMessage) {
+function checkMapFormat(fileContent) {
   const lines = fileContent.split('\n');
 
   if (lines.length < 2) {
-    errorMessage = 'Incorrect file format.'
-    return false;
+    return "Error: Incorrect file format.";
   }
 
   const height = parseInt(lines[0].trim(), 10);
   const width = parseInt(lines[1].trim(), 10);
 
   if (isNaN(height) || isNaN(width)) {
-    errorMessage = 'Incorrect file format.'
-    return false;
+    return "Error: Incorrect file format.";
   }
 
   if (height <= 0 || width <= 0) {
-    errorMessage = 'Incorrect dimensions.'
-    return false;
+    return "Error: Incorrect dimensions.";
   }
 
   let fieldLines = lines.slice(2);
 
   if (fieldLines.length !== height) {
-    errorMessage = 'The field does not correspond to the indicated dimensions.'
-    return false;
+    return "Error: The field does not correspond to the indicated dimensions.";
   }
 
   const validSymbols = /^[# +\-.0-9]+$/;
 
   for (const line of fieldLines) {
     if (!validSymbols.test(line)) {
-      errorMessage = 'Incorrect file format.'
-      return false;
+      return "Error: Incorrect file format.";
     }
   }
 
   fieldLines = fieldLines.map(line => line.split(' '));
 
-  for (const line of fiedLines) {
+  for (const line of fieldLines) {
     if (line.length !== width) {
-      errorMessage = 'The field does not correspond to the indicated dimensions.'
-      return false;
+      return "Error: The field does not correspond to the indicated dimensions.";
     }
     line.forEach(element => {
       if (element.length !== 1) {
-        errorMessage = 'Incorrect file format.'
-        return false;
+        return "Error: Incorrect file format.";
       }
     })
   }
@@ -144,33 +135,31 @@ function checkMapFormat(fileContent, errorMessage) {
     if (row === 0 || row + 1 === height) {
       for (let col = 0; col < width; col++) {
         if (fieldLines[row][col] !== '#') {
-          errorMessage = 'There\'s no outer border.'
-          return false;
+          return "Error: There\'s no outer border.";
         }
       }
     } else {
       if (fieldLines[row][0] != '#' || fieldLines[row][width - 1] != '#') {
-          errorMessage = 'There\'s no outer border.'
-          return false;
+          return "Error: There\'s no outer border.";
       }
     }
   }
 
-  return checkMapComponents(height, width, fieldLines, errorMessage);
+  return checkMapComponents(height, width, fieldLines);
 }
 
-function checkBugFormat(fileContent, errorMessage) {
+function checkBugFormat(fileContent) {
   const instructions = fileContent.split('\n').map(line => line.split(';')[0].trim());
 
   const regex = /^(sense (here|leftahead|rightahead|ahead) (friend|foe|friendwithfood|foewithfood|food|rock|marker \d|foemarker|home|foehome) (\w+|\d+) (\w+|\d+)|mark \d (\w+|\d+)|unmark \d (\w+|\d+)|pickup (\w+|\d+) (\w+|\d+)|drop (\w+|\d+)|turn (left|right)|move (\w+|\d+) (\w+|\d+)|flip \d (\w+|\d+) (\w+|\d+)|direction \d (\w+|\d+) (\w+|\d+)|(\w+|\d+):)$/;
 
   for (const instruction of instructions) {
     if (!regex.test(instruction)) {
-      return false;
+      return "Error: typos/non-existent tokens.";
     }
   }
 
-  return true;
+  return "";
 }
 
 function checkFileFormat(fileId, resultId, formatChecker) {
@@ -190,9 +179,11 @@ function checkFileFormat(fileId, resultId, formatChecker) {
   reader.onload = function (event) {
     const fileContent = event.target.result;
 
-    if (!formatChecker(fileContent, result.textContent)) {
+    const error = formatChecker(fileContent);
+    if(error !== "") {
+      result.textContent = error;
       result.style.color = 'red';
-      noErrors = false;
+      noErrors = false
     }
   };
 
