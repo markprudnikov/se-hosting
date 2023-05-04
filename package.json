@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "pair49_sprint3",
+  "version": "1.0.0",
+  "description": "Hosted at `TODO`",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.5.0"
+  }
+}
